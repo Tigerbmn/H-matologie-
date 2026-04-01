@@ -1,0 +1,285 @@
+const cardData = [
+  { id: 'rbc1', chapter: 'rbc', priority: 'must', topic: 'EISENMANGEL', question: 'Ferritin 4 μg/l, Hb 10,6, MCV 76 — Diagnose & Erstmarker?', answer: 'Eisenmangelanämie. Ferritin = ERSTER Marker!', points: ['Ferritin < 6 = Speichereisenmangel (Stadium I)', 'Reaktive Thrombozytose bei 20–30%', 'Orale Therapie: 4–6 Monate', 'Kontrolle: Retikulozyten ↑ ab Tag 5–10'], merke: 'Ferritin fällt zuerst. Symptome schon bei <50 μg/l (IDS).' },
+  { id: 'rbc2', chapter: 'rbc', priority: 'must', topic: 'EISENMANGEL', question: 'Stadien Eisenmangel & Ganzoni-Formel?', answer: 'I: Speichereisen · II: Defizitäre Erythropoese · III: Anämie', points: ['Ganzoni: (Soll-Hb – Ist-Hb) × KG × 2,4 + Reserve (500–1000 mg)', 'Oral: nur 5–10% Resorption, nüchtern!', 'IV bei Malignomen / Resorptionsstörung'], merke: 'Stadium I → II → III. Ferritin fällt zuerst!' },
+  { id: 'rbc3', chapter: 'rbc', priority: 'must', topic: 'THALASSÄMIE', question: 'Mentzer-Index: Formel & Interpretation?', answer: 'MCV ÷ Erythrozytenzahl', points: ['< 13 → Thalassämie', '> 13 → Eisenmangelanämie', 'Beta-Thal.: HbA2 ↑ in Elektrophorese', 'Alpha-Thal.: NUR Gentest!'], merke: '<13 = Thalassämie. Erythrozytenzahl ERHÖHT trotz niedrigem MCV!' },
+  { id: 'rbc4', chapter: 'rbc', priority: 'must', topic: 'SICHELZELL', question: 'Sichelzellkrise — Notfalltherapie?', answer: 'Sofort IV-Opioide + O₂ >95% + Hydrierung', points: ['Thromboseprophylaxe', 'Transfusion NUR bei Indikation', 'Nur Untergruppen-gleiches Blut!', 'Hydroxyurea = Prophylaxe (HbF-Induktion)'], merke: 'Pathomechanismus: Glutamin → Valin im β-Globin → HbS-Polymerisation.' },
+  { id: 'rbc5', chapter: 'rbc', priority: 'must', topic: 'B12-MANGEL', question: 'Makrozytäre Anämie + LDH↑ + Panzytopenie — Verdacht?', answer: 'Vitamin-B12-Mangel (häufigste Ursache: Perniziöse Anämie)', points: ['Speicher reichen 2–3 Jahre (Folsäure nur 2–4 Monate!)', 'MMS + Homocystein beide ↑ = B12', 'MMS normal, Hcy ↑ = Folsäure', 'Therapie: parenterales B12 lebenslang', 'Cave: Neurologie NUR bei B12-Mangel!'], merke: 'B12: Parästhesien + Anämie + Panzytopenie. Folsäure: kein Neurologie!' },
+  { id: 'rbc6', chapter: 'rbc', priority: 'must', topic: 'TTP', question: 'TTP-Trias & Soforttherapie?', answer: 'Thrombozytopenie + Hämolyse + ZNS-Symptomatik', points: ['GERINNUNG NORMAL! (≠ DIC)', 'Fragmentozyten im Blutausstrich', 'ADAMTS-13-Aktivität <10%', 'Therapie: SOFORT Plasmapherese + Steroide + Rituximab + Caplacizumab', 'Unbehandelt: Letalität 90%!'], merke: 'Fragmentozyten + normale Gerinnung + ZNS = TTP. Plasmapherese SOFORT!' },
+  { id: 'rbc7', chapter: 'rbc', priority: 'must', topic: 'PNH', question: 'Hämolyse + Thrombopenie + Milzvenenthrombose — Diagnose?', answer: 'Paroxysmale Nächtliche Hämoglobinurie (PNH)', points: ['GPI-Anker-Defekt → CD55/CD59 fehlen', 'Diagnose: FACS-Analyse', 'Hämoglobinurie nur bei 25%!', 'Therapie: Eculizumab + Antikoagulation'], merke: 'Trias: Hämolyse + Thrombopenie + Thrombophilie = PNH!' },
+  { id: 'rbc8', chapter: 'rbc', priority: 'high', topic: 'AIHA', question: 'AIHA Wärme vs. Kälte — Therapieunterschied?', answer: 'Wärme (IgG): Kortikosteroide. Kälte (IgM): Kälte meiden, Steroide WIRKUNGSLOS!', points: ['Wärme: 70%, Coombs+, SLE-assoziiert', 'Kälte: Akrozyanose, Splenektomie KI!'], merke: 'Kälte-AIHA: Steroide nutzlos, Splenektomie kontraindiziert!' },
+  { id: 'rbc9', chapter: 'rbc', priority: 'high', topic: 'SPHÄROZYTOSE', question: 'Sphärozytose — Trias & Diagnose?', answer: 'Hämolytische Anämie + Ikterus + Splenomegalie', points: ['Häufigste hämolytische Anämie in Europa', 'MCHC ↑', 'Coombs NEGATIV', 'Parvovirus B19 → aplastische Krise!'], merke: 'Sphärozytose: MCHC↑, familiär, Coombs-negativ.' },
+  { id: 'rbc10', chapter: 'rbc', priority: 'high', topic: 'ACD', question: 'ACD vs. Eisenmangel — Labordifferenzierung?', answer: 'ACD: Ferritin normal/↑, sTfR normal. Eisenmangel: Ferritin↓, sTfR↑', points: ['Hepcidin sperrt Eisen in Speichern', 'Transferrinsättigung↓ bei beiden', 'sTfR wird nicht durch Entzündung beeinflusst!'], merke: 'ACD: Ferritin↑, sTfR normal. Eisenmangel: Ferritin↓, sTfR↑.' },
+  { id: 'wbc1', chapter: 'wbc', priority: 'must', topic: 'CLL', question: 'CLL Diagnose & Binet-Klassifikation?', answer: 'CD19+, CD5+, CD23+ · Kernschatten = pathognomonisch', points: ['Binet A: <3 Regionen, Hb>10, Thrombo>100k → Watch & Wait', 'Binet B: ≥3 Regionen → bei Symptomen', 'Binet C: Hb<10 ODER Thrombo<100k → IMMER!', 'NICHT heilbar!'], merke: 'CLL: Kernschatten! Binet C = immer therapieren!' },
+  { id: 'wbc2', chapter: 'wbc', priority: 'must', topic: 'CML', question: 'CML — Pathogenese & Therapie?', answer: 'BCR-ABL1 (Philadelphia t9;22) → TKI (Imatinib) Erstlinie', points: ['Splenomegalie 95%, Leukozytose, Sternalschmerz', 'Phasen: chronisch → Akzeleration (15–29% Blasten) → Blastenkrise (>30%)', 'Diagnose: Multiplex-PCR BCR-ABL1'], merke: 'CML = BCR-ABL. TKI = Erstlinie. Fast normale Lebenserwartung!' },
+  { id: 'wbc3', chapter: 'wbc', priority: 'must', topic: 'MULTIPLES MYELOM', question: 'CRAB-Kriterien & M-Gradient?', answer: 'C=Hyperkalzämie, R=Renal, A=Anämie, B=Bone (Osteolysen)', points: ['M-Gradient in Elektrophorese', 'BSG maximal beschleunigt', 'MGUS: Vorstufe, kein CRAB → keine Therapie', 'Ein CRAB-Kriterium reicht!'], merke: 'CRAB = Therapieindikation. Eines reicht! MM = IgG, Waldenström = IgM.' },
+  { id: 'wbc4', chapter: 'wbc', priority: 'must', topic: 'HODGKIN', question: 'Morbus Hodgkin — B-Symptome & Staging?', answer: 'Fieber >38°C + Nachtschweiß + Gewichtsverlust >10% in 6 Monaten', points: ['Ann-Arbor I–IV', 'Diagnose: Exstirpation (kein FNA!)', 'PET-CT für Staging', 'Ziel: KURATIV!'], merke: 'Hodgkin: HEILBAR! FNA reicht nicht!' },
+  { id: 'wbc5', chapter: 'wbc', priority: 'high', topic: 'NHL / MALT', question: 'MALT-Lymphom Magen — Ursache & Ersttherapie?', answer: 'Helicobacter pylori → HP-Eradikation = Ersttherapie!', points: ['EBV → Burkitt-Lymphom', 'HTLV1 → T-Zell-Lymphome', 'Aggressive NHL: immer Immunchemotherapie'], merke: 'MALT = HP! Erst eradizieren.' },
+  { id: 'wbc6', chapter: 'wbc', priority: 'high', topic: 'AML / ALL', question: 'Blasten >20% + Panzytopenie — was tun?', answer: 'Akute Leukämie — SOFORT hämatologische Vorstellung!', points: ['AML: myeloische Blasten', 'ALL: lymphatische Blasten', 'Klassifikation nach WHO'], merke: 'Blasten >20% = akute Leukämie. Sofort!' },
+  { id: 'coag1', chapter: 'coag', priority: 'must', topic: 'ITP', question: 'ITP — Therapiereihenfolge?', answer: '1. Kortikosteroide → 2. Rituximab → 3. Splenektomie', points: ['Indikation: Thrombozyten <30.000', 'Keine Splenomegalie bei ITP!', 'KM: Megakaryozyten normal/↑', 'Notfall: IVIG + Kortiko + Thrombozyten'], merke: 'CAVE: erst Kortikosteroide, DANN Splenektomie!' },
+  { id: 'coag2', chapter: 'coag', priority: 'must', topic: 'HIT', question: 'HIT Typ II — Timing, Diagnose & Management?', answer: 'Thrombozytopenie nach 5–20 Tagen + Anti-PF4/Heparin-AK + Thrombosen', points: ['HIT I: 1–5 Tage, mild, spontan', 'HIT II: 5–20 Tage, Thrombosen!', 'Heparin SOFORT stoppen (auch NMH!)', 'Alternativen: Argatroban, Lepirudin', 'Allergiepass!'], merke: 'HIT I früh + mild. HIT II spät + gefährlich. Heparin raus!' },
+  { id: 'coag3', chapter: 'coag', priority: 'must', topic: 'HÄMOPHILIE', question: 'Hämophilie A/B — welche Tests pathologisch?', answer: 'PTT verlängert — Quick/INR NORMAL!', points: ['A = Faktor VIII ↓, B = Faktor IX ↓', 'X-chromosomal rezessiv', 'Gelenkblutungen = Leitsymptom', 'Quick normal → Hämophilie NICHT ausgeschlossen!'], merke: 'Quick normal + PTT↑ = Hämophilie oder VWS!' },
+  { id: 'coag4', chapter: 'coag', priority: 'must', topic: 'TTP vs DIC', question: 'TTP vs. DIC — wichtigster Unterschied?', answer: 'TTP: Gerinnung NORMAL. DIC: Quick↓, Fibrinogen↓, D-Dimere↑', points: ['TTP → Plasmapherese', 'DIC → Grunderkrankung behandeln'], merke: 'TTP: normale Gerinnung! DIC: alles verbraucht!' },
+  { id: 'coag5', chapter: 'coag', priority: 'high', topic: 'THROMBOZYTOPENIE', question: 'Thrombozytenzahl und Blutungsrisiko?', answer: '>100k: kein Risiko · <20k: Petechien · <5k: Spontanblutungen', points: ['Pseudothrombozytopenie: EDTA-Artefakt → Zitratblut!', 'Petechien = Thrombos. Hämatome = Gerinnung.'], merke: '<5000 = Spontanblutungsgefahr!' },
+  { id: 'coag6', chapter: 'coag', priority: 'high', topic: 'VON WILLEBRAND', question: 'Von-Willebrand-Syndrom — Kernmerkmale?', answer: 'Häufigste hereditäre Blutungserkrankung (1%)!', points: ['Autosomal dominant', 'Blutungszeit↑, PTT leicht↑', 'Schleimhautblutungen (nicht Gelenke!)', 'Therapie: DDAVP leicht / Faktorkonzentrat schwer'], merke: 'VWS = häufigste hereditäre Gerinnungsstörung!' },
+];
+
+const cases = [
+  { id:'c1', patient:'28-jährige Frau, Müdigkeit, Hypermenorrhö', labs:[{n:'Hb',v:'10,6 g/dl',a:true},{n:'MCV',v:'76 fl',a:true},{n:'Ferritin',v:'4 μg/l',a:true},{n:'Thrombozyten',v:'420 GIGA/l',a:true}], q:'Diagnose? Warum Thrombozytose? Therapie?', dx:'Eisenmangelanämie', r:'Ferritin 4 = erster Marker! Reaktive Thrombozytose bei 20–30%, kein Krankheitswert. Therapie: Eisen oral 4–6 Monate. Kontrolle: Retikulozyten ↑ ab Tag 5.' },
+  { id:'c2', patient:'31-jährige Frau, Kinderwunsch, mikrozytäre Anämie, Ferritin normal', labs:[{n:'Hb',v:'10,9 g/dl',a:true},{n:'MCV',v:'60,6 fl',a:true},{n:'Erythrozyten',v:'5,94 TERA/l',a:true},{n:'Mentzer',v:'10 (<13)',a:true}], q:'Diagnose & Risiko für das Kind?', dx:'Beta-Thalassämia minor (beide Eltern)', r:'Mentzer <13 → Thalassämie. Erys erhöht trotz MCV↓. Diagnose: Hb-Elektrophorese (HbA2↑). Kind: 25% gesund, 50% minor, 25% major → genetische Beratung!' },
+  { id:'c3', patient:'21-jährige Frau, Kribbeln → apoplektischer Insult am nächsten Tag!', labs:[{n:'Thrombozyten',v:'22 GIGA/l',a:true},{n:'LDH',v:'961 U/l',a:true},{n:'Gerinnung',v:'NORMAL',a:false},{n:'Fragmentozyten',v:'↑↑',a:true}], q:'Diagnose & Soforttherapie? Unterschied zu DIC?', dx:'Thrombotisch-thrombozytopenische Purpura (TTP)', r:'Trias: Thrombopenie + Hämolyse + ZNS. GERINNUNG NORMAL = kein DIC! Therapie: SOFORT Plasmapherese + Steroide + Rituximab + Caplacizumab. Nicht auf ADAMTS-13 warten!' },
+  { id:'c4', patient:'34-jähriger Mann, dunkler Urin, Bauchschmerzen, Milzvenenthrombose im Sono', labs:[{n:'Hb',v:'10,9 g/dl',a:true},{n:'Thrombozyten',v:'76 GIGA/l',a:true},{n:'Haptoglobin',v:'<1 mg/dl',a:true},{n:'Hämoglobinurie',v:'nur 25%!',a:true}], q:'Trias? Diagnose? Bestätigungstest?', dx:'Paroxysmale Nächtliche Hämoglobinurie (PNH)', r:'Trias: Hämolyse + Thrombopenie + Thrombophilie = PNH. GPI-Anker-Defekt → CD55/CD59↓. Diagnose: FACS-Analyse. Therapie: Eculizumab + Antikoagulation.' },
+  { id:'c5', patient:'70-jähriger Mann, Rückenschmerzen seit Monaten, Anämie beim Orthopäden', labs:[{n:'Hb',v:'8,0 g/dl',a:true},{n:'Eiweiß',v:'11,1 g/dl',a:true},{n:'Kalzium',v:'3,0 mmol/l',a:true},{n:'BSG',v:'maximal ↑',a:true}], q:'Diagnose? CRAB erfüllt? Nächster Schritt?', dx:'Multiples Myelom', r:'CRAB: C✓ R✓ A✓ B✓ — alles erfüllt! Ein Kriterium reicht. Nächste Schritte: Immunfixation, freie Leichtketten, Knochenmarkpunktion, Ganzkörper-CT.' },
+  { id:'c6', patient:'Patient nach Heparintherapie. Thrombozyten fallen nach 10 Tagen auf 68k. Neue Beinvenenthrombose!', labs:[{n:'Thrombozyten',v:'68k (>50% Abfall)',a:true},{n:'Timing',v:'Tag 10',a:true},{n:'Anti-PF4',v:'positiv',a:true}], q:'HIT I oder II? Sofortmaßnahme?', dx:'HIT Typ II', r:'Timing 5–20 Tage, Abfall >50%, Thrombosen = HIT II. SOFORT: Heparin stoppen (auch NMH!). Alternative: Argatroban oder Lepirudin. Kein Warfarin akut. Allergiepass!' },
+];
+
+const quick = [
+  {c:'rbc',q:'Welcher Marker zeigt ZUERST Eisenmangel?',a:'Ferritin (Stadium I = Speichereisenmangel)'},
+  {c:'rbc',q:'Ganzoni-Formel?',a:'(Soll-Hb – Ist-Hb) × KG × 2,4 + 500–1000 mg Reserve'},
+  {c:'rbc',q:'Mentzer-Index Grenzwert?',a:'<13 = Thalassämie · >13 = Eisenmangel'},
+  {c:'rbc',q:'Alpha-Thalassämie Diagnose?',a:'NUR Gentest! Elektrophorese unauffällig'},
+  {c:'rbc',q:'Hydroxyurea Wirkung bei Sichelzell?',a:'HbF-Induktion → keine β-Ketten → kein Sicheln. Ab 9. Lebensmonat'},
+  {c:'rbc',q:'TTP vs. DIC — wichtigster Unterschied?',a:'TTP: Gerinnung NORMAL. DIC: Fibrinogen↓, D-Dimere↑'},
+  {c:'rbc',q:'PNH Trias?',a:'Hämolyse + Thrombopenie + Thrombophilie. Hämoglobinurie nur 25%!'},
+  {c:'rbc',q:'PNH Diagnose?',a:'FACS-Analyse: CD55 + CD59 ↓'},
+  {c:'rbc',q:'Sphärozytose Coombs-Test?',a:'NEGATIV. Häufigste hämolytische Anämie in Europa'},
+  {c:'rbc',q:'B12-Speicher reichen wie lange?',a:'2–3 Jahre. Folsäure nur 2–4 Monate!'},
+  {c:'rbc',q:'Ferrinject spezifische NW?',a:'Hypophosphatämie (50%!). Tiefpunkt nach 2 Wochen'},
+  {c:'wbc',q:'CLL Kernschatten?',a:'Erhöhte Vulnerabilität → pathognomonisch für CLL'},
+  {c:'wbc',q:'CLL heilbar?',a:'NEIN. Einzig kurativ: allogene SZT (selten wegen Alter)'},
+  {c:'wbc',q:'CML Phasen?',a:'Chronisch → Akzeleration (15–29% Blasten) → Blastenkrise (>30%)'},
+  {c:'wbc',q:'CML vs. Myelofibrose?',a:'CML: BCR-ABL+. Myelofibrose: BCR-ABL neg., JAK2/CALR/MPL'},
+  {c:'wbc',q:'Myelom vs. Waldenström?',a:'MM: IgG/IgA/IgD. Waldenström: IgM + MyD88-Mutation'},
+  {c:'wbc',q:'Hodgkin FNA ausreichend?',a:'NEIN! Lymphknotenexstirpation nötig'},
+  {c:'wbc',q:'MALT-Lymphom Ersttherapie?',a:'Helicobacter-Eradikation!'},
+  {c:'wbc',q:'Fieber + Neutropenie?',a:'SOFORT nach Blutkultur: Pseudomonas-wirksame Antibiotika'},
+  {c:'coag',q:'ITP Therapiereihenfolge?',a:'1. Kortikosteroide → 2. Rituximab → 3. Splenektomie'},
+  {c:'coag',q:'HIT I vs. II Timing?',a:'HIT I: 1–5 Tage. HIT II: 5–20 Tage'},
+  {c:'coag',q:'HIT II alternative Antikoagulation?',a:'Argatroban oder Lepirudin. Kein Warfarin akut!'},
+  {c:'coag',q:'Hämophilie A vs. B?',a:'A = Faktor VIII. B = Faktor IX. Beide: Quick normal, PTT↑'},
+  {c:'coag',q:'Pseudothrombozytopenie ausschließen?',a:'EDTA-Artefakt → Thrombozyten im Zitratblut messen'},
+  {c:'coag',q:'Von-Willebrand Häufigkeit?',a:'1% = häufigste hereditäre Blutungserkrankung'},
+];
+
+const PC = {must:'#e8352a',high:'#f5a623',medium:'#3498db'};
+const TABS = [['ov','📊'],['fc','🃏'],['ca','🩺'],['qr','⚡']];
+const TABNAMES = {ov:'Übersicht',fc:'Flashcards',ca:'Fälle',qr:'Quick'};
+
+export default function App() {
+  const [tab, setTab] = useState('ov');
+  const [fil, setFil] = useState('all');
+  const [qfil, setQfil] = useState('all');
+  const [flip, setFlip] = useState({});
+  const [known, setKnown] = useState(() => { try { return JSON.parse(localStorage.getItem('k')||'{}'); } catch(e){return{};} });
+  const [unk, setUnk] = useState(() => { try { return JSON.parse(localStorage.getItem('u')||'{}'); } catch(e){return{};} });
+  const [openC, setOpenC] = useState({});
+  const [openQ, setOpenQ] = useState({});
+  const [toast, setToast] = useState('');
+
+  useEffect(()=>{ try{localStorage.setItem('k',JSON.stringify(known));}catch(e){} },[known]);
+  useEffect(()=>{ try{localStorage.setItem('u',JSON.stringify(unk));}catch(e){} },[unk]);
+  useEffect(()=>{ if(toast){const t=setTimeout(()=>setToast(''),2000);return()=>clearTimeout(t);} },[toast]);
+
+  const doFlip = id => setFlip(p=>({...p,[id]:!p[id]}));
+  const doMark = (e,id,type) => {
+    e.stopPropagation();
+    if(type==='k'){setKnown(p=>({...p,[id]:true}));setUnk(p=>{const n={...p};delete n[id];return n;});setToast('✓ Bekannt!');}
+    else{setUnk(p=>({...p,[id]:true}));setKnown(p=>{const n={...p};delete n[id];return n;});setToast('↩ Nochmal');}
+    setFlip(p=>({...p,[id]:false}));
+  };
+
+  const cards = cardData.filter(c=>{
+    if(fil==='must') return c.priority==='must';
+    if(fil==='high') return c.priority==='high';
+    if(fil==='rbc') return c.chapter==='rbc';
+    if(fil==='wbc') return c.chapter==='wbc';
+    if(fil==='coag') return c.chapter==='coag';
+    if(fil==='unk') return unk[c.id];
+    return true;
+  });
+
+  const qs = quick.filter(q=>qfil==='all'||q.c===qfil);
+  const kn = Object.keys(known).length;
+  const tot = cardData.length;
+  const pct = Math.round(kn/tot*100);
+
+  const g = (ch) => ({
+    k: cardData.filter(c=>c.chapter===ch&&known[c.id]).length,
+    t: cardData.filter(c=>c.chapter===ch).length
+  });
+  const rbc=g('rbc'),wbc=g('wbc'),coag=g('coag');
+
+  return (
+    <div style={{background:'#0a0c10',minHeight:'100vh',color:'#e8eaed',fontFamily:'system-ui,sans-serif',fontSize:14}}>
+
+      {/* HEADER */}
+      <div style={{background:'#111418',borderBottom:'1px solid #1e2530',padding:'0 14px',display:'flex',alignItems:'center',justifyContent:'space-between',height:50,position:'sticky',top:0,zIndex:99}}>
+        <div style={{fontWeight:800,fontSize:15,display:'flex',alignItems:'center',gap:8}}>
+          Hämatologie <span style={{background:'#e8352a',color:'#fff',fontSize:9,padding:'2px 6px',borderRadius:3,fontWeight:700}}>EXAM</span>
+        </div>
+        <span style={{fontFamily:'monospace',fontSize:11,color:'#2ecc71'}}>{kn}/{tot} ✓</span>
+      </div>
+
+      {/* TABS */}
+      <div style={{display:'flex',background:'#111418',borderBottom:'1px solid #1e2530',overflowX:'auto'}}>
+        {TABS.map(([id,icon])=>(
+          <div key={id} onClick={()=>setTab(id)}
+            style={{padding:'11px 16px',fontSize:12,color:tab===id?'#e8352a':'#4a5568',cursor:'pointer',borderBottom:tab===id?'2px solid #e8352a':'2px solid transparent',whiteSpace:'nowrap',fontFamily:'monospace',display:'flex',gap:5,alignItems:'center'}}>
+            {icon} {TABNAMES[id]}
+          </div>
+        ))}
+      </div>
+
+      <div style={{maxWidth:860,margin:'0 auto',padding:14}}>
+
+        {/* OVERVIEW */}
+        {tab==='ov' && (
+          <div>
+            <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:10,marginBottom:16}}>
+              {[[cardData.filter(c=>c.priority==='must').length,'MUST KNOW','#e8352a'],[kn,'BEKANNT','#2ecc71'],[tot,'TOTAL','#3498db'],[pct+'%','FORTSCHRITT','#f5a623']].map(([v,l,c])=>(
+                <div key={l} style={{background:'#111418',border:'1px solid #1e2530',borderRadius:10,padding:'14px 12px',textAlign:'center'}}>
+                  <div style={{fontWeight:800,fontSize:26,color:c,lineHeight:1}}>{v}</div>
+                  <div style={{fontSize:10,color:'#4a5568',fontFamily:'monospace',marginTop:4,letterSpacing:1}}>{l}</div>
+                </div>
+              ))}
+            </div>
+
+            <div style={{background:'#111418',border:'1px solid #1e2530',borderRadius:10,padding:14,marginBottom:14}}>
+              <div style={{fontWeight:700,fontSize:13,marginBottom:12,color:'#8a9ab0'}}>Kapitel-Fortschritt</div>
+              {[['Rote Blutzellen',rbc,'#e8352a'],['Weiße Blutzellen',wbc,'#3498db'],['Blutgerinnung',coag,'#f5a623']].map(([n,d,c])=>{
+                const p=Math.round(d.k/d.t*100);
+                return (
+                  <div key={n} style={{marginBottom:10}}>
+                    <div style={{display:'flex',justifyContent:'space-between',fontSize:11,color:'#4a5568',marginBottom:3,fontFamily:'monospace'}}>
+                      <span>{n}</span><span style={{color:c}}>{p}%</span>
+                    </div>
+                    <div style={{height:4,background:'#181c22',borderRadius:2,overflow:'hidden'}}>
+                      <div style={{height:'100%',width:p+'%',background:c,borderRadius:2,transition:'width 0.5s'}}></div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+
+            <div style={{background:'#111418',border:'1px solid #1e2530',borderRadius:10,padding:14}}>
+              <div style={{fontWeight:700,fontSize:13,marginBottom:12}}>⚡ Top 10 Prüfungsklassiker</div>
+              {['Eisenmangel-Stadien: Speichereisen → Erythropoese → Anämie','Mentzer-Index: MCV/Ery · <13 Thalassämie · >13 Eisenmangel','TTP-Trias: Thrombopenie+Hämolyse+ZNS → Plasmapherese SOFORT!','PNH: Hämolyse+Thrombopenie+Thrombophilie → FACS (CD55/CD59)','CLL: Kernschatten + Lymphozytose → Binet → keine Heilung','CML: BCR-ABL → TKI (Imatinib) · chronisch→Akzeleration→Blastenkrise','Myelom: CRAB-Kriterien · M-Gradient · Hyperkalzämie','HIT II: nach 5–20 Tagen · Thrombosen · KEIN Heparin mehr!','ITP: <30k → Kortikosteroide first → dann Splenektomie','Hämophilie: Quick NORMAL · PTT↑ · kein Quick-Ausschluss!'].map((t,i)=>(
+                <div key={i} style={{display:'flex',gap:10,padding:'7px 10px',background:'#181c22',borderRadius:6,borderLeft:'3px solid #e8352a',marginBottom:5}}>
+                  <span style={{fontFamily:'monospace',fontSize:10,color:'#e8352a',minWidth:18}}>{String(i+1).padStart(2,'0')}</span>
+                  <span style={{fontSize:12,lineHeight:1.5}}>{t}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* FLASHCARDS */}
+        {tab==='fc' && (
+          <div>
+            <div style={{display:'flex',gap:6,marginBottom:12,flexWrap:'wrap'}}>
+              {[['all','Alle'],['must','🔴MUST'],['high','🟠HIGH'],['rbc','Rote BZ'],['wbc','Weiße BZ'],['coag','Gerinnung'],['unk','❌Nochmal']].map(([f,l])=>(
+                <button key={f} onClick={()=>setFil(f)} style={{padding:'5px 10px',border:`1px solid ${fil===f?'#e8352a':'#1e2530'}`,background:fil===f?'#e8352a':'transparent',color:fil===f?'#fff':'#4a5568',borderRadius:6,fontSize:11,cursor:'pointer',fontFamily:'monospace'}}>{l}</button>
+              ))}
+            </div>
+            <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fill,minmax(290px,1fr))',gap:10}}>
+              {cards.map(card=>(
+                <div key={card.id} onClick={()=>doFlip(card.id)}
+                  style={{background:'#111418',border:'1px solid #1e2530',borderRadius:10,overflow:'hidden',cursor:'pointer'}}>
+                  <div style={{height:3,background:PC[card.priority]||'#4a5568'}}></div>
+                  {!flip[card.id] ? (
+                    <>
+                      <div style={{padding:'11px 13px 7px',display:'flex',justifyContent:'space-between',alignItems:'flex-start'}}>
+                        <span style={{fontFamily:'monospace',fontSize:10,color:'#4a5568',letterSpacing:1}}>{card.topic}</span>
+                        <span style={{fontSize:9,padding:'2px 5px',borderRadius:3,background:'rgba(232,53,42,0.15)',color:'#e8352a',border:'1px solid rgba(232,53,42,0.3)',fontFamily:'monospace',fontWeight:700}}>{card.priority.toUpperCase()}</span>
+                      </div>
+                      <div style={{padding:'3px 13px 13px',fontSize:13,fontWeight:600,lineHeight:1.5}}>{card.question}</div>
+                      <div style={{padding:'7px 13px',fontSize:10,color:'#4a5568',fontFamily:'monospace',borderTop:'1px solid #1e2530'}}>↩ Tippen für Antwort</div>
+                    </>
+                  ) : (
+                    <div style={{background:'#181c22'}}>
+                      <div style={{padding:'11px 13px 7px'}}>
+                        <span style={{fontFamily:'monospace',fontSize:10,color:'#4a5568',letterSpacing:1}}>{card.topic} — ANTWORT</span>
+                      </div>
+                      <div style={{padding:'3px 13px 13px'}}>
+                        <div style={{fontWeight:600,color:'#2ecc71',marginBottom:8,fontSize:13}}>▶ {card.answer}</div>
+                        {card.points&&<ul style={{listStyle:'none',margin:0,padding:0}}>
+                          {card.points.map((p,i)=><li key={i} style={{padding:'3px 0 3px 14px',position:'relative',fontSize:12,color:'#8a9ab0',lineHeight:1.5}}>→ {p}</li>)}
+                        </ul>}
+                        {card.merke&&<div style={{background:'rgba(46,204,113,0.08)',border:'1px solid rgba(46,204,113,0.2)',borderRadius:6,padding:'7px 10px',marginTop:8,fontSize:12,color:'#2ecc71',fontFamily:'monospace'}}>📌 {card.merke}</div>}
+                      </div>
+                      <div style={{padding:'7px 13px',borderTop:'1px solid #1e2530',display:'flex',gap:7}}>
+                        <button onClick={e=>doMark(e,card.id,'k')} style={{flex:1,padding:'6px 0',border:'1px solid #2ecc71',background:'transparent',color:'#2ecc71',borderRadius:6,fontSize:11,cursor:'pointer',fontFamily:'monospace'}}>✓ Bekannt</button>
+                        <button onClick={e=>doMark(e,card.id,'u')} style={{flex:1,padding:'6px 0',border:'1px solid #e8352a',background:'transparent',color:'#e8352a',borderRadius:6,fontSize:11,cursor:'pointer',fontFamily:'monospace'}}>✗ Nochmal</button>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* CASES */}
+        {tab==='ca' && (
+          <div>
+            <div style={{fontWeight:700,fontSize:18,marginBottom:14}}>🩺 Klinische Fälle</div>
+            {cases.map(c=>(
+              <div key={c.id} onClick={()=>setOpenC(p=>({...p,[c.id]:!p[c.id]}))}
+                style={{background:'#111418',border:'1px solid #1e2530',borderLeft:'3px solid #f5a623',borderRadius:10,overflow:'hidden',cursor:'pointer',marginBottom:10}}>
+                <div style={{padding:'11px 13px',background:'rgba(245,166,35,0.05)',borderBottom:'1px solid #1e2530',display:'flex',justifyContent:'space-between',alignItems:'center'}}>
+                  <span style={{fontFamily:'monospace',fontSize:10,color:'#f5a623',fontWeight:700,letterSpacing:1}}>KLINISCHER FALL</span>
+                  <span style={{fontFamily:'monospace',fontSize:10,color:'#4a5568'}}>{openC[c.id]?'▲':'▼'}</span>
+                </div>
+                <div style={{padding:'11px 13px'}}>
+                  <div style={{fontSize:13,color:'#8a9ab0',marginBottom:8,lineHeight:1.5}}>🧑‍⚕️ {c.patient}</div>
+                  <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fill,minmax(110px,1fr))',gap:5,margin:'8px 0'}}>
+                    {c.labs.map(l=>(
+                      <div key={l.n} style={{background:'#0a0c10',border:'1px solid #1e2530',borderRadius:6,padding:'5px 8px',fontFamily:'monospace',fontSize:11}}>
+                        <div style={{color:'#4a5568',fontSize:10}}>{l.n}</div>
+                        <div style={{color:l.a?'#e8352a':'#2ecc71',marginTop:2,fontWeight:600}}>{l.v}</div>
+                      </div>
+                    ))}
+                  </div>
+                  <div style={{fontSize:13,fontWeight:600,marginTop:10,paddingTop:10,borderTop:'1px solid #1e2530'}}>❓ {c.q}</div>
+                  {openC[c.id]&&(
+                    <>
+                      <div style={{background:'rgba(46,204,113,0.08)',border:'1px solid rgba(46,204,113,0.2)',borderRadius:8,padding:'10px 12px',margin:'10px 0 6px'}}>
+                        <div style={{fontFamily:'monospace',fontSize:10,color:'#2ecc71',marginBottom:4,letterSpacing:1}}>DIAGNOSE</div>
+                        <div style={{fontSize:14,fontWeight:600}}>{c.dx}</div>
+                      </div>
+                      <div style={{fontSize:12,color:'#8a9ab0',lineHeight:1.7}}>{c.r}</div>
+                    </>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* QUICK REVIEW */}
+        {tab==='qr' && (
+          <div>
+            <div style={{display:'flex',gap:6,marginBottom:12,flexWrap:'wrap'}}>
+              {[['all','Alle'],['rbc','Rote BZ'],['wbc','Weiße BZ'],['coag','Gerinnung']].map(([f,l])=>(
+                <button key={f} onClick={()=>setQfil(f)} style={{padding:'5px 10px',border:`1px solid ${qfil===f?'#e8352a':'#1e2530'}`,background:qfil===f?'#e8352a':'transparent',color:qfil===f?'#fff':'#4a5568',borderRadius:6,fontSize:11,cursor:'pointer',fontFamily:'monospace'}}>{l}</button>
+              ))}
+            </div>
+            {qs.map((q,i)=>(
+              <div key={i} onClick={()=>setOpenQ(p=>({...p,[i]:!p[i]}))}
+                style={{background:'#111418',border:'1px solid #1e2530',borderRadius:8,padding:'11px 13px',display:'flex',gap:10,cursor:'pointer',marginBottom:6}}>
+                <div style={{fontFamily:'monospace',fontSize:11,color:'#4a5568',minWidth:22,paddingTop:2}}>{String(i+1).padStart(2,'0')}</div>
+                <div style={{flex:1}}>
+                  <div style={{fontSize:13,lineHeight:1.4}}>{q.q}</div>
+                  {openQ[i]&&<div style={{fontSize:12,color:'#2ecc71',marginTop:8,paddingTop:8,borderTop:'1px solid #1e2530',lineHeight:1.6}}>{q.a}</div>}
+                </div>
+                <span style={{fontFamily:'monospace',fontSize:9,padding:'2px 5px',borderRadius:3,background:'rgba(52,152,219,0.15)',color:'#3498db',border:'1px solid rgba(52,152,219,0.3)',alignSelf:'flex-start',whiteSpace:'nowrap'}}>{q.c.toUpperCase()}</span>
+              </div>
+            ))}
+          </div>
+        )}
+
+      </div>
+
+      {toast&&<div style={{position:'fixed',bottom:18,right:18,background:'#111418',border:'1px solid #1e2530',borderRadius:8,padding:'8px 14px',fontSize:12,fontFamily:'monospace',zIndex:999}}>{toast}</div>}
+    </div>
+  );
+}
